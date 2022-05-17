@@ -15,21 +15,17 @@ public class Picture extends CanvasObject {
 		super(new Size(100, 100), new Position(50, 50));
 
 		this.filePath = filePath;
+		try {
+			this.image = ImageIO.read(new File(this.filePath));
+		} catch (IOException ex) {
+            System.out.println(ex);
+		}
+        super.setSize(new Size(image.getWidth(), image.getHeight()));
 	}
 	
-	public void setFilePath(String filePath) { this.filePath = filePath;}
-	
-	public String getFilePath() {
-		return filePath;
-	}
 	
 	public void render(Graphics g) {
-		try {                
-	          image = ImageIO.read(new File(filePath));
-	          g.drawImage(image, 0, 0, null);
-	       } catch (IOException ex) {
-	            // handle exception...
-	       }
+		g.drawImage(image, super.getPosition().getX(), super.getPosition().getY(), super.getSize().getWidth(), super.getSize().getHeight(), null);
 	}
 	
 }

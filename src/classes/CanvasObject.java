@@ -31,6 +31,13 @@ public class CanvasObject {
 		g.fillRect(position.getX(), position.getY(), size.getWidth(), size.getHeight());
 	}
 	
+	public boolean isInside(Position position) {
+		return position.getX() >= this.position.getX() && 
+				position.getX() <= this.position.getX() + this.size.getWidth() &&
+				position.getY() >= this.position.getY() &&
+				position.getY() <= this.position.getY() + this.size.getHeight();
+	}
+	
 	
 
 }
