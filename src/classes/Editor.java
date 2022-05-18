@@ -32,7 +32,7 @@ public class Editor {
 	    JMenuBar mb = new JMenuBar();
 	    
         // create a menu
-        JMenu x = new JMenu("Menu");
+        JMenu x = new JMenu("File");
   
         // create menuitems
         JMenuItem m1 = new JMenuItem("Import Image");
@@ -63,7 +63,7 @@ public class Editor {
         frame.setJMenuBar(mb);
         
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	    frame.setSize(560, 200);      
+	    frame.setSize(750, 750);      
 	    frame.setLocationRelativeTo(null);  
 	    frame.setVisible(true);	
 	}

@@ -7,11 +7,7 @@ import javax.swing.filechooser.FileFilter;
 
 public class FilePicker {
 	private Editor editor;
-//	
-////   public static void main(String[] args) {
-////      createWindow();
-////   }
-//	
+
 	public FilePicker(Editor editor) {
 		this.editor = editor;
 	}
@@ -27,11 +23,6 @@ public class FilePicker {
           Picture p = new Picture(file.getAbsolutePath());
           
           editor.addObject(p);
-//          image = file.getAbsolutePath();
-//          picture.setFileName(file.getName());
-//          picture.load(file.getAbsolutePath());
-//          picture.explore();
-//          System.out.println(picture.);
        } 
    }
    

@@ -26,6 +26,7 @@ public class Picture extends CanvasObject {
 	
 	public void render(Graphics g) {
 		g.drawImage(image, super.getPosition().getX(), super.getPosition().getY(), super.getSize().getWidth(), super.getSize().getHeight(), null);
+		renderSelection(g);
 	}
 	
 }

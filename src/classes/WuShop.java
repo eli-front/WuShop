@@ -9,16 +9,11 @@ public class WuShop {
 		
 		Editor e = new Editor();
 		
-		Size s = new Size(30, 20);
 		
+		e.addObject(new CanvasObject(new Size(30, 20), new Position(20, 50)));
 		
-		e.addObject(new CanvasObject(s, new Position(20, 50)));
-		
-		e.addObject(new CanvasObject(s, new Position(100, 50)));
-		
-//		FilePicker picker = new FilePicker(e);
-//		
-//		picker.createWindow();
+		e.addObject(new CanvasObject(new Size(30, 20), new Position(100, 50)));
+
 	}
 
 }

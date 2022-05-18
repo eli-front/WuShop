@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import classes.CanvasObject.Side;
+
 public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -36,8 +38,16 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+				
+		Position clickPosition = new Position(e.getX(), e.getY());
+		for (CanvasObject o : objects) {
+			if (o.isInside(clickPosition)) {
+				o.setSelected(true);
+			} 
+		}
 		
-		
+		super.repaint();
+
 		
 	}
 
@@ -45,25 +55,38 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mousePressed(MouseEvent e) {
 		
-//		Position clickPosition = new Position(e.getX(), e.getY());
-//				
-//		for (CanvasObject o : objects) {
-//			
-//			
-//			if (o.isInside(clickPosition)) {
-//				o.setSize(new Size(o.getSize().getWidth() + 5, o.getSize().getHeight() + 5));
-//				super.repaint();
-//			}
-//		}
+		Position position = new Position(e.getX(), e.getY());
+		for (CanvasObject o : objects) {
+			if (o.isInside(position)) {
+				o.setDragging(true);
+				o.setSelected(true);
+			} else if (o.isOnRightBorder(position)) {
+				o.setResizeSide(Side.RIGHT);
+			}
+			else if (o.isOnTopBorder(position)) {
+				o.setResizeSide(Side.TOP);
+			}
+			else if (o.isOnBottomBorder(position)) {
+				o.setResizeSide(Side.BOTTOM);
+			}
+			else if (o.isOnLeftBorder(position)) {
+				o.setResizeSide(Side.LEFT);
+			} else {
+				o.setSelected(false);
+			}
+		}
 		
-		// TODO Select Object
-		
+		super.repaint();
+						
 	}
 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		for (CanvasObject o : objects) {
+			o.setDragging(false);
+			o.setResizeSide(null);
+		}
 		
 	}
 
@@ -92,9 +115,32 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		
 		
 		for (CanvasObject o : objects) {
-			if (o.isInside(position)) {
+			if (o.isDragging()) {
 				o.setPosition(new Position(position.getX() - o.getSize().getWidth()/2, position.getY() - o.getSize().getHeight()/2));
 				
+			}
+			if (o.getResizeSide() != null) {
+				switch (o.getResizeSide()) {
+				case BOTTOM:
+					int yb = o.getPosition().getY();						
+					o.getSize().setHeight(position.getY() - yb);		
+					break;
+				case LEFT:
+					o.getSize().setWidth(o.getSize().getWidth() + o.getPosition().getX() - position.getX());
+					o.getPosition().setX(position.getX());
+					break;
+				case RIGHT:
+					int xr = o.getPosition().getX();						
+					o.getSize().setWidth(position.getX() - xr);		
+					break;
+				case TOP:
+					o.getSize().setHeight(o.getSize().getHeight() + o.getPosition().getY() - position.getY());
+					o.getPosition().setY(position.getY());
+					break;
+				default:
+					break;
+					
+				}
 			}
 		}
 		super.repaint();
@@ -114,6 +160,19 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		for (CanvasObject o : objects) {
 			if (o.isInside(position)) {
 				c = new Cursor(Cursor.HAND_CURSOR);
+			}
+			
+			if (o.isOnRightBorder(position)) {
+				c = new Cursor(Cursor.E_RESIZE_CURSOR);
+			}
+			else if (o.isOnTopBorder(position)) {
+				c = new Cursor(Cursor.N_RESIZE_CURSOR);
+			}
+			else if (o.isOnBottomBorder(position)) {
+				c = new Cursor(Cursor.S_RESIZE_CURSOR);
+			}
+			else if (o.isOnLeftBorder(position)) {
+				c = new Cursor(Cursor.W_RESIZE_CURSOR);
 			}
 		}
 		
