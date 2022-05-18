@@ -4,6 +4,8 @@ public class WuShop {
 	
 	public static void main(String[] args) {
 		
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+		
 		
 		Editor e = new Editor();
 		
@@ -14,9 +16,9 @@ public class WuShop {
 		
 		e.addObject(new CanvasObject(s, new Position(100, 50)));
 		
-		FilePicker picker = new FilePicker(e);
-		
-		picker.createWindow();
+//		FilePicker picker = new FilePicker(e);
+//		
+//		picker.createWindow();
 	}
 
 }
