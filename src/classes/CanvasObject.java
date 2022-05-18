@@ -49,7 +49,6 @@ public class CanvasObject {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.black);
 		g.fillRect(position.getX() + Math.min(0, size.getWidth()), position.getY() + Math.min(0, size.getHeight()), Math.abs(size.getWidth()), Math.abs(size.getHeight()));
 		renderSelection(g);
 	}
@@ -57,7 +56,7 @@ public class CanvasObject {
 	protected void renderSelection(Graphics g) {
 		if (selected) {
 			g.setColor(Color.blue);
-			g.drawRect(position.getX()-5, position.getY()-5, size.getWidth()+10, size.getHeight()+10);
+			g.drawRect(position.getX() + Math.min(0, size.getWidth()), position.getY() + Math.min(0, size.getHeight()), Math.abs(size.getWidth()), Math.abs(size.getHeight()));
 		}
 	}
 	
@@ -75,28 +74,49 @@ public class CanvasObject {
 	}
 	
 	public boolean isOnLeftBorder(Position position) {
-		return position.getX() + 5 >= this.position.getX() && 
-				position.getX() <= this.position.getX() + this.size.getWidth() &&
-				position.getY() >= this.position.getY() &&
-				position.getY() <= this.position.getY() + this.size.getHeight() && !isInside(position);
+		
+		int w = Math.abs(this.size.getWidth());
+		int x = this.position.getX() + Math.min(0, size.getWidth());
+		int h =  Math.abs(this.size.getHeight());
+		int y = this.position.getY() + Math.min(0, size.getHeight());
+		
+		return position.getX() + 5 >= x && 
+				position.getX() <= x + w &&
+				position.getY() >= y &&
+				position.getY() <= y + h && !isInside(position);
 	}
 	public boolean isOnRightBorder(Position position) {
-		return position.getX() >= this.position.getX() && 
-				position.getX() - 5 <= this.position.getX() + this.size.getWidth() &&
-				position.getY() >= this.position.getY() &&
-				position.getY() <= this.position.getY() + this.size.getHeight() && !isInside(position);
+		int w = Math.abs(this.size.getWidth());
+		int x = this.position.getX() + Math.min(0, size.getWidth());
+		int h =  Math.abs(this.size.getHeight());
+		int y = this.position.getY() + Math.min(0, size.getHeight());
+		
+		return position.getX() >= x && 
+				position.getX() - 5 <= x + w &&
+				position.getY() >= y &&
+				position.getY() <= y + h && !isInside(position);
 	}
 	public boolean isOnTopBorder(Position position) {
-		return position.getX() >= this.position.getX() && 
-				position.getX() <= this.position.getX() + this.size.getWidth() &&
-				position.getY() + 5 >= this.position.getY() &&
-				position.getY() <= this.position.getY() + this.size.getHeight() && !isInside(position);
+		int w = Math.abs(this.size.getWidth());
+		int x = this.position.getX() + Math.min(0, size.getWidth());
+		int h =  Math.abs(this.size.getHeight());
+		int y = this.position.getY() + Math.min(0, size.getHeight());
+		
+		return position.getX() >= x && 
+				position.getX() <= x + w &&
+				position.getY() + 5 >= y &&
+				position.getY() <= y + h && !isInside(position);
 	}
 	public boolean isOnBottomBorder(Position position) {
-		return position.getX() >= this.position.getX() && 
-				position.getX() <= this.position.getX() + this.size.getWidth() &&
-				position.getY() >= this.position.getY() &&
-				position.getY() - 5 <= this.position.getY() + this.size.getHeight() && !isInside(position);
+		int w = Math.abs(this.size.getWidth());
+		int x = this.position.getX() + Math.min(0, size.getWidth());
+		int h =  Math.abs(this.size.getHeight());
+		int y = this.position.getY() + Math.min(0, size.getHeight());
+		
+		return position.getX() >= x && 
+				position.getX() <= x + w &&
+				position.getY() >= y &&
+				position.getY() - 5 <= y + h && !isInside(position);
 	}
 	
 	public void setSelected(boolean selected) {

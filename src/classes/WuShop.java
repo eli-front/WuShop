@@ -1,5 +1,7 @@
 package classes;
 
+import java.awt.Color;
+
 public class WuShop {
 	
 	public static void main(String[] args) {
@@ -10,9 +12,9 @@ public class WuShop {
 		Editor e = new Editor();
 		
 		
-		e.addObject(new CanvasObject(new Size(30, 20), new Position(20, 50)));
+		e.addObject(new ColoredCanvasObject(new Size(30, 20), new Position(20, 50), Color.red));
 		
-		e.addObject(new CanvasObject(new Size(30, 20), new Position(100, 50)));
+		e.addObject(new ColoredCanvasObject(new Size(30, 20), new Position(100, 50), Color.green));
 
 	}
 
