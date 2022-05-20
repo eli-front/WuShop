@@ -8,8 +8,7 @@ public class CanvasObject {
 	private Position position;
 	private boolean selected;
 	private boolean dragging;
-	private Side resizeSide;
-	
+	private Side resizeSide;	
 	
 	public CanvasObject(Size size, Position position) {
 		this.size = size;

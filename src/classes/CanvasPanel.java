@@ -1,12 +1,18 @@
 package classes;
 
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JPanel;
 
 import classes.CanvasObject.Side;
@@ -14,6 +20,8 @@ import classes.CanvasObject.Side;
 public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
+	private JButton colorButton;
+
 	
 	private ArrayList<CanvasObject> objects;
 	
@@ -23,6 +31,35 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		
+		colorButton = new JButton("Choose Color");
+        colorButton.setPreferredSize(new Dimension(100, 50));
+        
+        colorButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Color currentColor = Color.white;
+				
+				ColoredCanvasObject currentObject = null;
+				
+				for (CanvasObject o : objects) {
+					if (o instanceof ColoredCanvasObject && o.isSelected()) {
+						currentColor = ((ColoredCanvasObject) o).getColor();
+						currentObject = ((ColoredCanvasObject) o);
+					}
+				}
+				
+				Color c = JColorChooser.showDialog(null, "Choose a Color", currentColor);
+				
+				currentObject.setColor(c);
+				
+				repaint();
+				
+			}
+        	
+        });
+        
+        		
 	}
 	
 	
@@ -43,12 +80,13 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		for (CanvasObject o : objects) {
 			if (o.isInside(clickPosition)) {
 				o.setSelected(true);
+				System.out.println(this.getClass());
+				this.add(colorButton);
+				this.revalidate();
 			} 
 		}
 		
 		super.repaint();
-
-		
 	}
 
 
@@ -60,6 +98,9 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 			if (o.isInside(position)) {
 				o.setDragging(true);
 				o.setSelected(true);
+				this.add(colorButton);
+				this.revalidate();
+
 			} else if (o.isOnRightBorder(position)) {
 				o.setResizeSide(Side.RIGHT);
 			}
@@ -73,6 +114,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 				o.setResizeSide(Side.LEFT);
 			} else {
 				o.setSelected(false);
+				this.remove(colorButton);
+				this.revalidate();
 			}
 		}
 		
@@ -179,7 +222,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		setCursor(c);
 		
 	}
-	
 
 	
 	

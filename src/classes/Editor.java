@@ -18,7 +18,8 @@ public class Editor {
 	
 	private JFrame frame;
 	
-	private FilePicker picker = new FilePicker(this);
+	
+	private FilePicker filePicker = new FilePicker(this);
 	
 	public Editor() {
 		createWindow();
@@ -26,6 +27,7 @@ public class Editor {
 	
 	private void createWindow() {
 		frame = new JFrame("Editor");
+		panel.setBounds(0, 0, 100, 100);
 		frame.add(panel);
 		
 	    
@@ -38,26 +40,23 @@ public class Editor {
         JMenuItem m1 = new JMenuItem("Import Image");
         
         m1.setAccelerator(KeyStroke.getKeyStroke('I', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-//        JMenuItem m2 = new JMenuItem("MenuItem2");
-//        JMenuItem m3 = new JMenuItem("MenuItem3");
+
   
         // add menu items to menu
         x.add(m1);
-//        x.add(m2);
-//        x.add(m3);
+
         
         m1.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				picker.createWindow();
-				
+				filePicker.createWindow();
 			}
-        	
         });
   
         // add menu to menu bar
+        
+        
+        
         mb.add(x);
         
         frame.setJMenuBar(mb);
@@ -67,6 +66,8 @@ public class Editor {
 	    frame.setLocationRelativeTo(null);  
 	    frame.setVisible(true);	
 	}
+	
+	
 	
 	public void addObject(CanvasObject object) {
 		objects.add(object);

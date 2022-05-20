@@ -18,5 +18,13 @@ public class ColoredCanvasObject extends CanvasObject {
 		g.setColor(color);
 		super.render(g);
 	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public void setColor(Color c) {
+		color = c;
+	}
 
 }
