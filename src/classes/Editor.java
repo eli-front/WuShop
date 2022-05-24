@@ -1,5 +1,6 @@
 package classes;
 
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,12 +39,15 @@ public class Editor {
   
         // create menuitems
         JMenuItem m1 = new JMenuItem("Import Image");
+        JMenuItem m2 = new JMenuItem("New Object");
         
         m1.setAccelerator(KeyStroke.getKeyStroke('I', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        m2.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
   
         // add menu items to menu
         x.add(m1);
+        x.add(m2);
 
         
         m1.addActionListener(new ActionListener() {
@@ -51,6 +55,16 @@ public class Editor {
 			public void actionPerformed(ActionEvent e) {
 				filePicker.createWindow();
 			}
+        });
+        
+        m2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				addObject(new ColoredCanvasObject(new Size(100, 100), new Position(50, 50), Color.black));
+			}
+        	
         });
   
         // add menu to menu bar
