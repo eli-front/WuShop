@@ -80,9 +80,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		for (CanvasObject o : objects) {
 			if (o.isInside(clickPosition)) {
 				o.setSelected(true);
-				System.out.println(this.getClass());
-				this.add(colorButton);
-				this.revalidate();
+				
+				if (o instanceof ColoredCanvasObject) {
+					this.add(colorButton);
+					this.revalidate();
+				}
 			} 
 		}
 		
@@ -93,14 +95,18 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mousePressed(MouseEvent e) {
 		
+		boolean isSelected = false;
+		
 		Position position = new Position(e.getX(), e.getY());
 		for (CanvasObject o : objects) {
 			if (o.isInside(position)) {
 				o.setDragging(true);
 				o.setSelected(true);
-				this.add(colorButton);
-				this.revalidate();
-
+				if (o instanceof ColoredCanvasObject) {
+					isSelected = true;
+					this.add(colorButton);
+					this.revalidate();
+				}
 			} else if (o.isOnRightBorder(position)) {
 				o.setResizeSide(Side.RIGHT);
 			}
@@ -114,10 +120,14 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 				o.setResizeSide(Side.LEFT);
 			} else {
 				o.setSelected(false);
-				this.remove(colorButton);
-				this.revalidate();
 			}
 		}
+		
+		if (!isSelected) {
+			this.remove(colorButton);
+			this.revalidate();
+		}
+		
 		
 		super.repaint();
 						
