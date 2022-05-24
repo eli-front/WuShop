@@ -90,6 +90,16 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		
 		super.repaint();
 	}
+	
+	private ArrayList<CanvasObject> reversed() {
+		ArrayList<CanvasObject> newList = new ArrayList<>();
+		
+		for (int i = objects.size() - 1; i >= 0; i--) {
+			newList.add(objects.get(i));
+		}
+		
+		return newList;
+	}
 
 
 	@Override
@@ -98,7 +108,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 		boolean isSelected = false;
 		
 		Position position = new Position(e.getX(), e.getY());
-		for (CanvasObject o : objects) {
+		for (CanvasObject o : reversed()) {
 			if (o.isInside(position)) {
 				o.setDragging(true);
 				o.setSelected(true);
@@ -107,6 +117,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 					this.add(colorButton);
 					this.revalidate();
 				}
+				break;
 			} else if (o.isOnRightBorder(position)) {
 				o.setResizeSide(Side.RIGHT);
 			}
