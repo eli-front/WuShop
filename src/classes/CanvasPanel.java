@@ -4,13 +4,17 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JPanel;
@@ -21,6 +25,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
 	private static final long serialVersionUID = 1L;
 	private JButton colorButton;
+	
+	private DrawingTool draw;
 
 	
 	private ArrayList<CanvasObject> objects;
@@ -43,9 +49,12 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 				ColoredCanvasObject currentObject = null;
 				
 				for (CanvasObject o : objects) {
-					if (o instanceof ColoredCanvasObject && o.isSelected()) {
-						currentColor = ((ColoredCanvasObject) o).getColor();
-						currentObject = ((ColoredCanvasObject) o);
+					if (o instanceof Colored && o.isSelected()) {
+						currentColor = ((Colored) o).getColor();
+						
+						if (o instanceof ColoredCanvasObject) {
+							currentObject = ((ColoredCanvasObject) o);
+						}
 					}
 				}
 				
@@ -62,6 +71,27 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         		
 	}
 	
+	public void saveImage(String name,String type) {
+		BufferedImage image = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2 = image.createGraphics();
+		paint(g2);
+		try{
+			ImageIO.write(image, type, new File(name+"."+type));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	
+	public void toggleDraw() {
+		if (draw == null) {
+			this.draw = new DrawingTool(new Size(100,100), new Position(0,0), Color.black);
+			objects.add(draw);
+		} else {
+			this.draw = null;
+		}
+	}
 	
 	
 	@Override
@@ -75,6 +105,10 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		
+		if (draw != null) {
+			return;
+		}
 				
 		Position clickPosition = new Position(e.getX(), e.getY());
 		for (CanvasObject o : objects) {
@@ -104,6 +138,10 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		
+		if (draw != null) {
+			return;
+		}
 		
 		boolean isSelected = false;
 		
@@ -147,6 +185,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
+		if (draw != null) {
+			return;
+		}
+		
 		for (CanvasObject o : objects) {
 			o.setDragging(false);
 			o.setResizeSide(null);
@@ -176,6 +219,12 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		Position position = new Position(e.getX(), e.getY());
+		
+		if (draw != null) {
+			draw.addPoint(position);
+			super.repaint();
+			return;
+		}
 		
 		
 		for (CanvasObject o : objects) {

@@ -3,7 +3,7 @@ package classes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class ColoredCanvasObject extends CanvasObject {
+public class ColoredCanvasObject extends CanvasObject implements Colored {
 	
 	private Color color;
 

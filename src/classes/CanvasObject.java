@@ -3,7 +3,7 @@ package classes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class CanvasObject {
+public class CanvasObject implements Rendered {
 	private Size size;
 	private Position position;
 	private boolean selected;

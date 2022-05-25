@@ -40,14 +40,21 @@ public class Editor {
         // create menuitems
         JMenuItem m1 = new JMenuItem("Import Image");
         JMenuItem m2 = new JMenuItem("New Object");
+        JMenuItem m3 = new JMenuItem("Toggle Draw");
+        JMenuItem m4 = new JMenuItem("Export");
+
         
         m1.setAccelerator(KeyStroke.getKeyStroke('I', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         m2.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        m3.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+        m4.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
   
         // add menu items to menu
         x.add(m1);
         x.add(m2);
+        x.add(m3);
+        x.add(m4);
 
         
         m1.addActionListener(new ActionListener() {
@@ -61,8 +68,25 @@ public class Editor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				addObject(new ColoredCanvasObject(new Size(100, 100), new Position(50, 50), Color.black));
+			}
+        	
+        });
+        
+        m3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.toggleDraw();
+			}
+        	
+        });
+        
+        m4.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.saveImage("WuImage", "png");
 			}
         	
         });
